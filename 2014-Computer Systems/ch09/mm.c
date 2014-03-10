@@ -1,3 +1,17 @@
+static char* heap_listp;
+
+static void *find_fit(size_t, asize)
+{
+    void *curr_ptr = heap_listp;
+    while (GET_SIZE(heap_listp) <= asize) {    
+        curr_ptr = NEXT_BLKP(curr_ptr);
+        if (curr_ptr == NULL)
+            curr_ptr = extend_heap(CHUNKSIZE/WSIZE);
+    }
+    
+    return curr_ptr;
+}    
+
 static void place(void *bp, size_t asize)
 {
     // Get the free size. 
